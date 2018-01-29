@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width" />
+	<meta charset="utf-8"/>
+	<link rel="stylesheet" href="/static/bmtl_style.css">
+	
+</head>
+<body>
+	<div class="progressbar"></div>
+	<div class="bmtl">
+		<h1 class="title"></h1>
+		<div class="nav">
+			<a class="p" href="/do?url=%s">Previous</a> 
+			<a class="n" href="/do?url=%s">Next</a>
+		</div>
+		<div class="inner"></div>
+		<div class="nav">
+			<a class="p" href="/do?url=%s">Previous</a> 
+			<a class="n" href="/do?url=%s">Next</a>
+		</div>
+	</div>
+	<script>
+		var serverid = "%s";
+		function getPart(url, part, total) {
+			console.log('Getting part '+part+' of '+total);
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					document.querySelector('.progressbar').style.width = part/total*100+'%%';
+					console.log('Recieved part '+part+' of '+total);
+					var e = document.querySelector('.bmtl .inner')
+					e.innerHTML = e.innerHTML + this.responseText;
+					if (part < total){
+						getPart(url, part+1, total);
+						
+					}
+					if(part == 1){
+						var e2 = document.querySelector('.bmtl .inner').children;
+						var e3 = document.querySelector('.bmtl .title')
+						e3.innerHTML = e2[0].outerHTML + e2[1].outerHTML
+						e2[0].remove();
+						e2[0].remove();
+					}
+					if(part == total){
+						document.querySelector('.progressbar').style.position = 'absolute';
+					}
+				}
+			};
+			
+			xhttp.open("GET", "getpart?part="+part+"&total="+total+"&url="+url+'&id='+serverid, true);
+			xhttp.send();
+		}
+		
+		getPart("%s", 1, 5);
+	</script>
+	<script src="/static/bmtl_script.js"></script>
+
+</body>
+</html>
