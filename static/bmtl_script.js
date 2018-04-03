@@ -28,4 +28,23 @@ var reqPart = function(part, total){
   xhttp.open("GET", "getPart/part="+part+"&total="+total, true);
   xhttp.send();
 };
+(function(){
+	var TITLE = 0, CH = 1;
+	var histDiv = document.querySelector(".history");
+	if(histDiv!=null){
+		var hist = localStorage.getItem("my_history");
+		if(hist == null){
+			histDiv.innerHTML = "<p class='gray'>No history</p>"
+		}else{
+			histDiv.innerHTML = "";
+			hist = hist.split("::AND::");
+			hist.forEach(function(item){
+				var parts = item.split("::PART::");
+				histDiv.innerHTML += "<p>"+parts[TITLE]+"|"+parts[CH]+"</p>";
+			})
+		}
+	}
+	
+	
+})();
 

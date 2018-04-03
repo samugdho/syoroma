@@ -10,6 +10,7 @@
 	<div class="progressbar"></div>
 	<div class="bmtl">
 		<h1 class="title"></h1>
+		<h2 class="subtitle"></h2>
 		<div class="nav">
 			<a class="p" href="/do?url=%s">Previous</a> 
 			<a class="n" href="/do?url=%s">Next</a>
@@ -35,15 +36,42 @@
 						getPart(url, part+1, total);
 						
 					}
+					var e3 = document.querySelector('.bmtl .title')
+					var e4 = document.querySelector('.bmtl .subtitle')
 					if(part == 1){
 						var e2 = document.querySelector('.bmtl .inner').children;
-						var e3 = document.querySelector('.bmtl .title')
+						
+						
 						e3.innerHTML = e2[0].outerHTML + e2[1].outerHTML
-						e2[0].remove();
-						e2[0].remove();
+						e4.innerHTML = e2[2].outerHTML + e2[3].outerHTML
+						for(var i = 0; i < 4;i++){
+							e2[0].remove();
+						}
 					}
 					if(part == total){
 						document.querySelector('.progressbar').style.position = 'absolute';
+						(function(){
+							var hist = localStorage.getItem("my_history");
+							if(hist == null){
+								hist = [];
+							}else{
+								hist = hist.split("::AND::");
+							}
+							var title = e3.children[0].children[0].innerText;
+							title = "<a href='/do?url="+url.split('/').slice(0,4).join('/')+"'>"+title+"</a>"
+							var subtitle = e4.children[0].children[0].innerText;
+							subtitle = "<a href='/do?url="+url+"'>"+subtitle+"</a>"
+							var r = title+"::PART::"+subtitle;
+							if(!hist.includes(r)){
+								hist.unshift(r);
+								if(hist.length > 8){
+									hist.pop();
+								}
+								localStorage.setItem("my_history",hist.join("::AND::"));
+								console.log("Added to history");
+							}
+						})();
+						
 					}
 				}
 			};

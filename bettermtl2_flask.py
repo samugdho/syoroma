@@ -196,6 +196,7 @@ def getPart(link, part, total,id):
 	fn = lines if part == total else lines//total * (part)
 	html = _process(link,st, fn, rs)
 	return html
+	''''''
 	
 def _process(link, s, f, rraw):
 	raw = rraw[s:f]
@@ -236,7 +237,9 @@ def getSyo(link, title = False):
 	r.encoding = 'utf-8'
 	data = r.text
 	soup = BeautifulSoup(data,'html.parser')
-	rtext = soup.find_all(class_='novel_subtitle')[0].text
+	title = soup.select('#container .contents1')[0].contents[1].text
+	rtext = title
+	rtext += "\n"+soup.find_all(class_='novel_subtitle')[0].text
 	rtext += '\n'+soup.find(id='novel_honbun').text
 	'''
 	for r in repSyo:
