@@ -237,6 +237,7 @@ def getSyo(link, title = False):
 	r.encoding = 'utf-8'
 	data = r.text
 	soup = BeautifulSoup(data,'html.parser')
+	print(data)
 	ttt = soup.select('#container .contents1')
 	print(ttt)
 	title = ttt[0].contents[1].text
