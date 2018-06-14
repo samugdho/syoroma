@@ -3,7 +3,7 @@ from bettermtl2_flask import make2 as bmtlMake
 from bettermtl2_flask import make as bmtlMake_legacy
 from bettermtl2_flask import getPart as bmtlGetPart
 from bettermtl2_flask import test as bmtlTest
-
+'test'
 app = Flask(__name__)
 
 @app.route('/')
