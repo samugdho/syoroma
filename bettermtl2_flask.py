@@ -237,7 +237,9 @@ def getSyo(link, title = False):
 	r.encoding = 'utf-8'
 	data = r.text
 	soup = BeautifulSoup(data,'html.parser')
-	title = soup.select('#container .contents1')[0].contents[1].text
+	ttt = soup.select('#container .contents1')
+	print(ttt)
+	title = ttt[0].contents[1].text
 	rtext = title
 	rtext += "\n"+soup.find_all(class_='novel_subtitle')[0].text
 	rtext += '\n'+soup.find(id='novel_honbun').text
